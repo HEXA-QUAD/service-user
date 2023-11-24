@@ -18,7 +18,6 @@ import java.util.Map;
 @SpringBootApplication
 @RestController
 public class Oauth2Application {
-    private UserRepository userRepository;
     /*
     /oauth2/authorization/google initializes the sign on process,After successful authentication, the OAuth2 provider redirects the user back to the specified callback URL.
     Spring Security intercepts the callback request and completes the OAuth2 authorization process:
@@ -32,6 +31,5 @@ public class Oauth2Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Oauth2Application.class, args);
-
     }
 }

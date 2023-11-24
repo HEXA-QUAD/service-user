@@ -26,31 +26,31 @@ public class UserController {
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 
-    @GetMapping(path = "/register_role/{role}") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity<String>  setRole(@AuthenticationPrincipal OAuth2User oauth2User, @PathVariable String role) {
+    @GetMapping(path = "/register_role") // Map ONLY POST Requests
+    public @ResponseBody String setRole(@RequestParam String email, @RequestParam String role) {
         // register this user as the given role in the database, user chooses their role after logging in with google
-        String name = oauth2User.getAttribute("name");
-        String email = oauth2User.getAttribute("email");
         if (!role.equals("student") && !role.equals("professor")){
             if (role.equals("admin")){
                 if (!userRepository.existsByEmailAndRole(email,"admin")){
                     throw new RoleNotAuthorizedException("you are not authorized for this role");
+                }else{
+                    return "registered";
                 }
             }else{
                 throw new RoleNotAuthorizedException("the role you specified is not available");
             }
         }else{
-            if (!userRepository.existsByEmailAndRole(email,role)) {
+            Optional<User> result= userRepository.findByEmail(email);
+            if (result.isEmpty()) {
                 User user = new User();
-                user.setName(name);
                 user.setEmail(email);
                 user.setRole(role);
                 userRepository.save(user);
+                return "registered";
             }
+            return "this email is already in use";
         }
 
-        String jwt = JwtUtil.generateToken(name,email,role);
-        return ResponseEntity.ok(jwt);
     }
 
     @GetMapping(path = "/user/all")
@@ -70,15 +70,10 @@ public class UserController {
         return userRepository.findAllByRole("professor");
     }
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/user/{email}")
     public @ResponseBody
-    Optional<User> getUserById(@PathVariable("id") Integer id) {
+    Optional<User> getUserById(@PathVariable("email") String email) {
         // This returns a JSON or XML with the users
-        return userRepository.findById(id);
+        return userRepository.findByEmail(email);
     }
-
-
-
-
-
 }

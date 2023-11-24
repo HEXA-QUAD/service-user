@@ -1,18 +1,17 @@
 package com.example.oauth2.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+
 
     private String name;
 
+    @Id
     private String email;
-    private String role;
 
 
     public String getRole() {
@@ -23,15 +22,7 @@ public class User {
         this.role = role;
     }
 
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String role;
 
     public String getName() {
         return name;
