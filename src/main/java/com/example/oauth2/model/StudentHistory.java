@@ -17,6 +17,9 @@ public class StudentHistory {
     @Column(name = "semester")
     private String semester;
     @NotBlank
+    @Column(name = "track")
+    private String track;
+    @NotBlank
     @Column(name = "course_one")
     private String courseOne;
     @Column(name = "course_two")
@@ -27,6 +30,10 @@ public class StudentHistory {
     private String courseFour;
     @Column(name = "course_five")
     private String courseFive;
+
+    public String getTrack() {return track;}
+
+    public void setTrack(String track) {this.track = track;}
 
     public String getCourseThree() {
         return courseThree;
