@@ -13,8 +13,10 @@ public class StudentHistory {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @NotBlank
     @Column(name = "semester")
     private String semester;
+    @NotBlank
     @Column(name = "course_one")
     private String courseOne;
     @Column(name = "course_two")

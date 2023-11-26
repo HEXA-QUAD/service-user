@@ -1,5 +1,6 @@
 package com.example.oauth2.controller;
 
+import com.example.oauth2.exception.DuplicateStudentRecordException;
 import com.example.oauth2.exception.NoSuchAccountException;
 import com.example.oauth2.exception.RoleNotAuthorizedException;
 import org.springframework.http.HttpStatus;
@@ -16,5 +17,10 @@ public class CustomExceptionHandler {
     @ExceptionHandler(NoSuchAccountException.class)
     public final ResponseEntity<String> handleNoSuchAccountException(Exception ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateStudentRecordException.class)
+    public final ResponseEntity<String> handleDuplicateStudentRecordException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }

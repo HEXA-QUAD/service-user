@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     )
                     .exceptionHandling(e -> e
                             .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                    )
+                    ).csrf().disable()
                     .oauth2Login()
                     .successHandler(this.Oauth2Handler);
         }

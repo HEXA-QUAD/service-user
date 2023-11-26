@@ -1,5 +1,6 @@
 package com.example.oauth2.controller;
 
+import com.example.oauth2.exception.NoSuchAccountException;
 import com.example.oauth2.exception.RoleNotAuthorizedException;
 import com.example.oauth2.model.User;
 import com.example.oauth2.repository.UserRepository;
@@ -21,12 +22,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/user/self")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-    }
-
-    @GetMapping(path = "/register_role") // Map ONLY POST Requests
+    @PostMapping(path = "/register_role") // Map ONLY POST Requests
     public @ResponseBody String setRole(@RequestParam String email, @RequestParam String role) {
         // register this user as the given role in the database, user chooses their role after logging in with google
         if (!role.equals("student") && !role.equals("professor")){
@@ -48,7 +44,7 @@ public class UserController {
                 userRepository.save(user);
                 return "registered";
             }
-            return "this email is already in use";
+            return "this email is already in use and registered";
         }
 
     }
@@ -72,8 +68,13 @@ public class UserController {
 
     @GetMapping(path = "/user/{email}")
     public @ResponseBody
-    Optional<User> getUserById(@PathVariable("email") String email) {
+    User getUserById(@PathVariable("email") String email) {
         // This returns a JSON or XML with the users
-        return userRepository.findByEmail(email);
+        Optional<User> result = userRepository.findByEmail(email);
+        if (result.isPresent()){
+            return result.get();
+        }else{
+            throw new NoSuchAccountException("user with email "+email+" does not exist please register first");
+        }
     }
 }

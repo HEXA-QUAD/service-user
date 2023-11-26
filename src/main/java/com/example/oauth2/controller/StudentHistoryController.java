@@ -1,5 +1,6 @@
 package com.example.oauth2.controller;
 
+import com.example.oauth2.exception.DuplicateStudentRecordException;
 import com.example.oauth2.exception.NoSuchAccountException;
 import com.example.oauth2.model.StudentHistory;
 import com.example.oauth2.model.User;
@@ -34,7 +35,11 @@ public class StudentHistoryController {
     @RequestMapping(path = "/student_history/add/{studentId}") // called when the dispatch starts
     public @ResponseBody
     String addNewStudentHistory(@PathVariable String studentId, @RequestBody StudentHistory history) {
+
         history.setUser(userRepository.getReferenceById(studentId));
+        if (studentHistoryRepository.existsByUserAndSemester(history.getUser(), history.getSemester())){
+            throw new DuplicateStudentRecordException("duplicated student record");
+        }
         studentHistoryRepository.save(history);
         return "Saved";
     }

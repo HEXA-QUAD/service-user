@@ -10,4 +10,5 @@ import java.util.function.Function;
 @Repository
 public interface StudentHistoryRepository extends JpaRepository<StudentHistory, Integer> {
     List<StudentHistory> findByUser(User user);
+    boolean existsByUserAndSemester(User user, String semester);
 }
