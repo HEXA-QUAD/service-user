@@ -43,5 +43,25 @@ public class StudentHistoryController {
         studentHistoryRepository.save(history);
         return "Saved";
     }
+    @DeleteMapping("/student_history/{id}")
+    public void deleteStudentHistory(@PathVariable Integer id) {
+        studentHistoryRepository.deleteById(id);
+    }
+    @PutMapping("/student_history/update/{id}")
+    public StudentHistory updateProduct(@PathVariable Integer id, @RequestBody StudentHistory updatedHistory) {
+        Optional<StudentHistory> existingStudentHistory = studentHistoryRepository.findById(id);
+        if (existingStudentHistory.isPresent()) {
+            StudentHistory newHistory = existingStudentHistory.get();
+            newHistory.setCourseOne(updatedHistory.getCourseOne());
+            newHistory.setCourseTwo(updatedHistory.getCourseTwo());
+            newHistory.setCourseThree(updatedHistory.getCourseThree());
+            newHistory.setCourseFour(updatedHistory.getCourseFour());
+            newHistory.setCourseFive(updatedHistory.getCourseFive());
+            return studentHistoryRepository.save(newHistory);
+        } else {
+            // Handle not found scenario
+            return null;
+        }
+    }
 
 }

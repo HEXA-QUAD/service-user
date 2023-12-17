@@ -12,5 +12,7 @@ import java.util.function.Function;
 public interface StudentHistoryRepository extends JpaRepository<StudentHistory, Integer> {
     List<StudentHistory> findByUser(User user);
     boolean existsByUserAndSemester(User user, String semester);
+    List<StudentHistory> findByUserAndSemester(User user, String semester);
     boolean existsByTrack(@NotBlank String track);
+    void deleteByUserAndSemester(User user, @NotBlank String semester);
 }

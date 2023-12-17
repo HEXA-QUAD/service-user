@@ -1,0 +1,16 @@
+runtime: java17  # Specify the Java runtime version
+instance_class: F1  # Choose an appropriate instance class based on your needs
+
+# Automatic scaling is used by default, you can specify the number of instances here
+automatic_scaling:
+  min_instances: 1  # Minimum number of instances to run (0 to allow scaling to 0)
+  max_instances: 2  # Maximum number of instances (set according to your needs)
+
+# Entry point for your application
+entrypoint: 'java -jar ./target/my-service.jar'  # Replace with the path to your jar file
+
+# The handlers section defines URL handling
+# We're not forcing HTTPS redirection for your toy project
+handlers:
+  - url: /.*
+    script: auto

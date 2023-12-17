@@ -52,7 +52,6 @@ public class StudentHistory {
     }
 
 
-
     public String getSemester() {
         return semester;
     }
