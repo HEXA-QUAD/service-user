@@ -23,17 +23,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Set up Google Cloud
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v0.2.0
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          deliverables: app.yaml
+          credentials: ${{ secrets.GCP_SA_KEY }}
           project_id: project-405004
-
-      - name: Authenticate with Google Cloud
-        run: |
-          echo "${{ secrets.GCP_SA_KEY }}" > gcp-key.json
-          gcloud auth activate-service-account --key-file=gcp-key.json
-
-      - name: Deploy to Google App Engine
-        run: |
-          gcloud app deploy app.yaml
