@@ -7,7 +7,7 @@ automatic_scaling:
   max_instances: 2  # Maximum number of instances (set according to your needs)
 
 # Entry point for your application
-entrypoint: 'java -jar ./target/Oauth2.jar'  # Replace with the path to your jar file
+entrypoint: 'java -jar ./target/Oauth2-0.0.1-SNAPSHOT.jar'  # Replace with the path to your jar file
 
 # The handlers section defines URL handling
 # We're not forcing HTTPS redirection for your toy project
