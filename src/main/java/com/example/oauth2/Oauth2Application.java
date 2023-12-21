@@ -2,8 +2,11 @@ package com.example.oauth2;
 
 import com.example.oauth2.model.User;
 import com.example.oauth2.repository.UserRepository;
+import com.oembedler.moon.graphql.boot.GraphQLWebAutoConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,8 +18,9 @@ import com.example.oauth2.util.JwtUtil;
 import java.util.Collections;
 import java.util.Map;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {GraphQLWebAutoConfiguration.class})
 @RestController
+@Configuration
 public class Oauth2Application {
     /*
     /oauth2/authorization/google initializes the sign on process,After successful authentication, the OAuth2 provider redirects the user back to the specified callback URL.
@@ -26,7 +30,6 @@ public class Oauth2Application {
     Creates an OAuth2User representing the authenticated user.
     */
     //@GetMapping("/login/oauth2/code/google")
-
 
 
     public static void main(String[] args) {

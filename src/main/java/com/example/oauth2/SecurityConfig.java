@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .authorizeRequests(a -> a
                             .antMatchers(HttpMethod.POST, "/student_history/add/**").permitAll()
-                            .antMatchers("/", "/error", "/webjars/**", "/register_role", "/student/**","/student_history/**","/user/**","/prof/**","/login/**").permitAll()
+                            .antMatchers("/", "/error", "/webjars/**", "/register_role", "/student/**","/student_history/**","/user/**","/prof/**","/login/**", "/graphql").permitAll()
                             .anyRequest().authenticated()
                     )
                     .exceptionHandling(e -> e

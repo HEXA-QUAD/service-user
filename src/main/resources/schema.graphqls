@@ -1,0 +1,9 @@
+type User {
+    email: String!
+    name: String
+    role: String
+}
+
+type Query {
+    userByEmail(email: String!): User
+}
