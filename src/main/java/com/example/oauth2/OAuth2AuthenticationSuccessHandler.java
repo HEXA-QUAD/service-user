@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public OAuth2AuthenticationSuccessHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    @Value("${frontend.redirect.url}")
+    private String frontendRedirectUrl;
 
     @Override
     public void onAuthenticationSuccess(
@@ -43,7 +46,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 userRepository.save(user);
             }
             String jwt = JwtUtil.generateToken(user.getName(),user.getEmail(),user.getRole());
-            response.getWriter().write(jwt);
+            // response.getWriter().write(jwt);
+            getRedirectStrategy().sendRedirect(request, response, frontendRedirectUrl + "?token=" + jwt);
+
         } else {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email not found");
         }
